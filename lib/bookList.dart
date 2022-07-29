@@ -1,3 +1,5 @@
+import 'package:CVoca/bookInfo.dart';
+import 'package:CVoca/export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:path/path.dart';
@@ -22,6 +24,7 @@ class _bookListState extends State<bookList> {
   List<Book> books = [];
   List bookIds = [];
   int count = 0;
+  int value = 0;
 
   @override
   void initState() {
@@ -176,6 +179,49 @@ class _bookListState extends State<bookList> {
                                 bookId: books[i].id,
                               )),
                     ).then((_) => getBookList());
+                  },
+                  onLongPress: () {
+                    showMenu(
+                        context: context,
+                        position: RelativeRect.fromLTRB(
+                            MediaQuery.of(context).size.width / 2,
+                            MediaQuery.of(context).size.height / 2,
+                            MediaQuery.of(context).size.width / 2,
+                            MediaQuery.of(context).size.height / 2),
+                        items: [
+                          PopupMenuItem(
+                            child: Text('Info'),
+                            value: 1,
+                          ),
+                          PopupMenuItem(
+                            child: Text('Export'),
+                            value: 2,
+                          ),
+                        ]).then(
+                      (value) {
+                        if (value == 1) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => BookInfo(
+                                bookId: books[i].id,
+                                bookName: books[i].bookname,
+                                bookColor: books[i].bookcolor,
+                              ),
+                            ),
+                          ).then((_) => getBookList());
+                        } else if (value == 2) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Export(
+                                bookId: [books[i].id],
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    );
                   },
                   color: Color(int.parse(books[i].bookcolor)),
                   height: 200,

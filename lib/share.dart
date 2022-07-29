@@ -7,59 +7,88 @@ class Share extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-        Container(
-          margin: EdgeInsets.all(15),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Share",
-                style: newTextStyle.titleText,
-              ),
-            ],
-          ),
-        ),
-        Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.black,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(10),
-            ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            margin: EdgeInsets.all(15),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Share",
+                  style: newTextStyle.titleText,
+                ),
+              ],
+            ),
+          ),
+          MaterialButton(
+            onPressed: () {},
+            color: Colors.pinkAccent,
+            height: MediaQuery.of(context).size.height * 0.35,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: MaterialButton(
-                        onPressed: () {},
-                        child: Text("FILE"),
-                      ),
+                    Icon(
+                      Icons.ios_share_rounded,
+                      size: 50,
                     ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: MaterialButton(
-                        onPressed: () {},
-                        child: Text("QR CODE"),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: MaterialButton(
-                        onPressed: () {},
-                        child: Text("LINK"),
+                    Text(
+                      "Export",
+                      style: TextStyle(
+                        fontSize: 20,
                       ),
                     ),
                   ],
                 )
               ],
-            ))
-      ]),
+            ),
+          ),
+          MaterialButton(
+            onPressed: () {},
+            color: Colors.greenAccent,
+            height: MediaQuery.of(context).size.height * 0.35,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.download_rounded,
+                      size: 50,
+                    ),
+                    Text(
+                      "Import",
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              MaterialButton(
+                onPressed: () {},
+                height: MediaQuery.of(context).size.height * 0.1,
+                child: Text("Back Up"),
+              ),
+              MaterialButton(
+                onPressed: () {},
+                height: MediaQuery.of(context).size.height * 0.1,
+                child: Text("Restore"),
+              ),
+            ],
+          )
+        ],
+      ),
     );
   }
 }

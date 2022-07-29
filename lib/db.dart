@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:async';
+import 'dart:convert';
 import 'package:CVoca/model.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
@@ -78,6 +79,23 @@ class CardManager {
   Future<int> deleteAll(int bookId) async {
     Database db = await database;
     return await db.delete('cards', where: 'bookid = ?', whereArgs: [bookId]);
+  }
+
+  //read all cards with bookid = bookId and return a json string except the id and bookid fields
+  Future getCardsJson(int bookId) async {
+    List<Map<String, dynamic>> res = [];
+    var cards = await getCards(bookId);
+    for (var card in cards) {
+      res.add(
+        {
+          'word': card.word,
+          'mean': card.mean,
+          'pronun': card.pronun,
+          'explain': card.explain,
+        },
+      );
+    }
+    return res;
   }
 }
 
@@ -168,5 +186,19 @@ class BookManager {
     var books = await db.query('books', orderBy: 'id');
     List bookIds = books.isNotEmpty ? books.map((c) => c['id']).toList() : [];
     return bookIds;
+  }
+
+  Future<String> getBooksJson(List<int> bookIds) async {
+    List<Map<String, dynamic>> books = [];
+    for (int id in bookIds) {
+      var book = await getBook(id);
+      var cards = await CardManager.instance.getCardsJson(id);
+      books.add({
+        'bookname': book.bookname,
+        'bookcolor': book.bookcolor,
+        'cards': cards,
+      });
+    }
+    return json.encode(books);
   }
 }

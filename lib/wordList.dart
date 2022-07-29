@@ -78,6 +78,7 @@ class _WordListState extends State<WordList> {
   }
 
   Future getBookInfo(int bookId) async {
+    await BookManager.instance.getBooksJson([bookId]);
     var tmpBook = await BookManager.instance.getBook(bookId);
     if (tmpBook != "") {
       setState(() {
