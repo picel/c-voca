@@ -8,6 +8,7 @@ import 'package:CVoca/style.dart';
 import 'package:CVoca/db.dart';
 import 'package:CVoca/model.dart';
 import 'package:CVoca/wordList.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class bookList extends StatefulWidget {
   const bookList({Key? key}) : super(key: key);
@@ -170,73 +171,82 @@ class _bookListState extends State<bookList> {
             desiredItemWidth: 120,
             minSpacing: 20,
             children: bookIds.map((i) {
-              return MaterialButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => WordList(
-                                bookId: books[i].id,
-                              )),
-                    ).then((_) => getBookList());
-                  },
-                  onLongPress: () {
-                    showMenu(
-                        context: context,
-                        position: RelativeRect.fromLTRB(
-                            MediaQuery.of(context).size.width / 2,
-                            MediaQuery.of(context).size.height / 2,
-                            MediaQuery.of(context).size.width / 2,
-                            MediaQuery.of(context).size.height / 2),
-                        items: [
-                          PopupMenuItem(
-                            child: Text('Info'),
-                            value: 1,
-                          ),
-                          PopupMenuItem(
-                            child: Text('Export'),
-                            value: 2,
-                          ),
-                        ]).then(
-                      (value) {
-                        if (value == 1) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => BookInfo(
-                                bookId: books[i].id,
-                                bookName: books[i].bookname,
-                                bookColor: books[i].bookcolor,
-                              ),
+              return AnimationConfiguration.staggeredGrid(
+                position: i,
+                duration: const Duration(milliseconds: 375),
+                columnCount: count,
+                child: ScaleAnimation(
+                    child: FadeInAnimation(
+                  child: MaterialButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => WordList(
+                                  bookId: books[i].id,
+                                )),
+                      ).then((_) => getBookList());
+                    },
+                    onLongPress: () {
+                      showMenu(
+                          context: context,
+                          position: RelativeRect.fromLTRB(
+                              MediaQuery.of(context).size.width / 2,
+                              MediaQuery.of(context).size.height / 2,
+                              MediaQuery.of(context).size.width / 2,
+                              MediaQuery.of(context).size.height / 2),
+                          items: [
+                            PopupMenuItem(
+                              child: Text('Info'),
+                              value: 1,
                             ),
-                          ).then((_) => getBookList());
-                        } else if (value == 2) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Export(
-                                bookId: [books[i].id],
-                              ),
+                            PopupMenuItem(
+                              child: Text('Export'),
+                              value: 2,
                             ),
-                          );
-                        }
-                      },
-                    );
-                  },
-                  color: Color(int.parse(books[i].bookcolor)),
-                  height: 200,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(books[i].bookname,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: textColorDecision(
-                                Color(int.parse(books[i].bookcolor))),
-                          )),
-                    ],
-                  ));
+                          ]).then(
+                        (value) {
+                          if (value == 1) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => BookInfo(
+                                  bookId: books[i].id,
+                                  bookName: books[i].bookname,
+                                  bookColor: books[i].bookcolor,
+                                ),
+                              ),
+                            ).then((_) => getBookList());
+                          } else if (value == 2) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Export(
+                                  bookId: [books[i].id],
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                      );
+                    },
+                    color: Color(int.parse(books[i].bookcolor)),
+                    height: 200,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(books[i].bookname,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: textColorDecision(
+                                  Color(int.parse(books[i].bookcolor))),
+                            )),
+                      ],
+                    ),
+                  ),
+                )),
+              );
             }).toList(),
           ),
         ),

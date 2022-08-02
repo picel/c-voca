@@ -6,6 +6,7 @@ import 'package:CVoca/model.dart';
 import 'package:CVoca/wordAdd.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:CVoca/wordModify.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class WordList extends StatefulWidget {
   final int bookId;
@@ -35,7 +36,6 @@ class _WordListState extends State<WordList> {
   @override
   void initState() {
     super.initState();
-
     getBookInfo(widget.bookId);
   }
 
@@ -78,7 +78,6 @@ class _WordListState extends State<WordList> {
   }
 
   Future getBookInfo(int bookId) async {
-    await BookManager.instance.getBooksJson([bookId]);
     var tmpBook = await BookManager.instance.getBook(bookId);
     if (tmpBook != "") {
       setState(() {
@@ -158,83 +157,97 @@ class _WordListState extends State<WordList> {
               ),
             ),
             Expanded(
-                child: ListView.builder(
-                    itemCount: cardLength,
-                    scrollDirection: Axis.vertical,
-                    padding: const EdgeInsets.all(10),
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Slidable(
-                            endActionPane: ActionPane(
-                              extentRatio: 0.4,
-                              motion: const ScrollMotion(),
-                              children: [
-                                SlidableAction(
-                                  onPressed: (BuildContext context) {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => WordModify(
-                                                cardId: cards[index].id,
-                                              )),
-                                    ).then((_) => getWordList());
-                                  },
-                                  icon: Icons.edit_rounded,
-                                  backgroundColor: Colors.blue,
-                                  foregroundColor: Colors.white,
-                                ),
-                                SlidableAction(
+              child: ListView.builder(
+                itemCount: cardLength,
+                scrollDirection: Axis.vertical,
+                padding: const EdgeInsets.all(10),
+                itemBuilder: (BuildContext context, int index) {
+                  return AnimationConfiguration.staggeredList(
+                    position: index,
+                    duration: const Duration(milliseconds: 375),
+                    child: SlideAnimation(
+                      verticalOffset: 50.0,
+                      child: FadeInAnimation(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Slidable(
+                              endActionPane: ActionPane(
+                                extentRatio: 0.4,
+                                motion: const ScrollMotion(),
+                                children: [
+                                  SlidableAction(
                                     onPressed: (BuildContext context) {
-                                      deleteWord(cards[index].id);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => WordModify(
+                                                  cardId: cards[index].id,
+                                                )),
+                                      ).then((_) => getWordList());
                                     },
-                                    icon: Icons.delete_rounded,
-                                    backgroundColor: Colors.red,
-                                    foregroundColor: Colors.white),
-                              ],
-                            ),
-                            child: Container(
-                              color: Colors.white,
-                              padding: EdgeInsets.all(15),
-                              child: Column(children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                    icon: Icons.edit_rounded,
+                                    backgroundColor: Colors.blue,
+                                    foregroundColor: Colors.white,
+                                  ),
+                                  SlidableAction(
+                                      onPressed: (BuildContext context) {
+                                        deleteWord(cards[index].id);
+                                      },
+                                      icon: Icons.delete_rounded,
+                                      backgroundColor: Colors.red,
+                                      foregroundColor: Colors.white),
+                                ],
+                              ),
+                              child: Container(
+                                color: Colors.white,
+                                padding: EdgeInsets.all(15),
+                                child: Column(
                                   children: [
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          cards[index].word,
-                                          style: newTextStyle.subTitleText,
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              cards[index].word,
+                                              style: newTextStyle.subTitleText,
+                                            ),
+                                            Text(
+                                              "(" +
+                                                  (cards[index].pronun
+                                                      as String) +
+                                                  ")",
+                                            ),
+                                          ],
                                         ),
                                         Text(
-                                          "(" +
-                                              (cards[index].pronun as String) +
-                                              ")",
+                                          cards[index].mean,
+                                          style: newTextStyle.subTitleText,
                                         ),
                                       ],
                                     ),
                                     Text(
-                                      cards[index].mean,
-                                      style: newTextStyle.subTitleText,
+                                      cards[index].explain as String,
                                     ),
                                   ],
                                 ),
-                                Text(
-                                  cards[index].explain as String,
-                                ),
-                              ]),
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                        ],
-                      );
-                    }))
+                            SizedBox(
+                              height: 10,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),

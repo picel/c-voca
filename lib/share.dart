@@ -1,3 +1,4 @@
+import 'package:CVoca/qrScan.dart';
 import 'package:flutter/material.dart';
 import 'package:CVoca/style.dart';
 
@@ -48,7 +49,14 @@ class Share extends StatelessWidget {
             ),
           ),
           MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => QRScanner(),
+                ),
+              );
+            },
             color: Colors.greenAccent,
             height: MediaQuery.of(context).size.height * 0.35,
             child: Row(

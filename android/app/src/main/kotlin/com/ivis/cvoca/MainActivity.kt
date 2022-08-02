@@ -1,4 +1,4 @@
-package com.ivis.wwdd.wwdd
+package com.ivis.cvoca
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.ivis.wwdd.wwdd">
+    package="com.ivis.cvoca">
    <application
         android:label="wwdd"
         android:name="${applicationName}"

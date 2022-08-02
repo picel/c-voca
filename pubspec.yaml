@@ -38,6 +38,8 @@ dependencies:
   flutter_colorpicker:
   responsive_grid:
   flutter_slidable:
+  mobile_scanner:
+  flutter_staggered_animations:
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -45,6 +47,7 @@ dependencies:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
+  change_app_package_name:
   flutter_test:
     sdk: flutter
 

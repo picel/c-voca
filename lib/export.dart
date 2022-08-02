@@ -50,51 +50,54 @@ class _ExportState extends State<Export> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(
-            margin: EdgeInsets.all(15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_back_ios_new_rounded),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                Text(
-                  "Share",
-                  style: newTextStyle.titleText,
-                ),
-              ],
-            ),
-          ),
-          isLoading
-              ? CircularProgressIndicator()
-              : Container(
-                  margin: EdgeInsets.all(15),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "QR Code",
-                        style: newTextStyle.titleText,
-                      ),
-                      Image.network('https://go.picel.net/qr/' + code + '.png'),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text("Code", style: newTextStyle.titleText),
-                      Text(
-                        code,
-                        style: newTextStyle.subTitleText,
-                      ),
-                    ],
+      child: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              margin: EdgeInsets.all(15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back_ios_new_rounded),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
-                ),
-        ],
+                  Text(
+                    "Share",
+                    style: newTextStyle.titleText,
+                  ),
+                ],
+              ),
+            ),
+            isLoading
+                ? CircularProgressIndicator()
+                : Container(
+                    margin: EdgeInsets.all(15),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "QR Code",
+                          style: newTextStyle.titleText,
+                        ),
+                        Image.network(
+                            'https://go.picel.net/qr/' + code + '.png'),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Text("Code", style: newTextStyle.titleText),
+                        Text(
+                          code,
+                          style: newTextStyle.subTitleText,
+                        ),
+                      ],
+                    ),
+                  ),
+          ],
+        ),
       ),
     );
   }

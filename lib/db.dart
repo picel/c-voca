@@ -83,7 +83,7 @@ class CardManager {
 
   //read all cards with bookid = bookId and return a json string except the id and bookid fields
   Future getCardsJson(int bookId) async {
-    List<Map<String, dynamic>> res = [];
+    var res = [];
     var cards = await getCards(bookId);
     for (var card in cards) {
       res.add(
@@ -189,14 +189,15 @@ class BookManager {
   }
 
   Future<String> getBooksJson(List<int> bookIds) async {
-    List<Map<String, dynamic>> books = [];
-    for (int id in bookIds) {
-      var book = await getBook(id);
-      var cards = await CardManager.instance.getCardsJson(id);
+    var books = [];
+    for (int i = 0; i < bookIds.length; i++) {
+      var book = await getBook(bookIds[i]);
+      var cards = await CardManager.instance.getCardsJson(bookIds[i]);
       books.add({
         'bookname': book.bookname,
         'bookcolor': book.bookcolor,
-        'cards': cards,
+        'count': cards.length,
+        'cards': cards
       });
     }
     return json.encode(books);
