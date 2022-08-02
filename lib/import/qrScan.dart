@@ -1,4 +1,4 @@
-import 'package:CVoca/scanResult.dart';
+import 'package:CVoca/import/scanResult.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/foundation/key.dart';

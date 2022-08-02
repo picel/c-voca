@@ -1,5 +1,5 @@
 import 'package:CVoca/bookInfo.dart';
-import 'package:CVoca/export.dart';
+import 'package:CVoca/export/export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:path/path.dart';
@@ -71,74 +71,80 @@ class _bookListState extends State<bookList> {
 
   colorPicker(context) {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-              title: const Text('Pick a color!'),
-              content: SingleChildScrollView(
-                child: MaterialPicker(
-                  enableLabel: true,
-                  onColorChanged: (Color color) {
-                    setState(() {
-                      newColor = color;
-                    });
-                  },
-                  pickerColor: selectedColor,
-                ),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('Cancel'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ElevatedButton(
-                    child: const Text('Confirm'),
-                    onPressed: () {
-                      setState(() => selectedColor = newColor);
-                      Navigator.of(context).pop();
-                      titleInput(context);
-                    })
-              ]);
-        });
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Pick a color!'),
+          content: SingleChildScrollView(
+            child: MaterialPicker(
+              enableLabel: true,
+              onColorChanged: (Color color) {
+                setState(() {
+                  newColor = color;
+                });
+              },
+              pickerColor: selectedColor,
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            ElevatedButton(
+              child: const Text('Confirm'),
+              onPressed: () {
+                setState(() => selectedColor = newColor);
+                Navigator.of(context).pop();
+                titleInput(context);
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 
   titleInput(context) {
     showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-              title: const Text('Type Book\'s Title'),
-              content: SingleChildScrollView(
-                child: ListBody(
-                  children: [
-                    TextField(
-                      controller: inputController,
-                      decoration: InputDecoration(
-                        labelText: 'Title',
-                      ),
-                    ),
-                  ],
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Type Book\'s Title'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: [
+                TextField(
+                  controller: inputController,
+                  decoration: InputDecoration(
+                    labelText: 'Title',
+                  ),
                 ),
-              ),
-              actions: <Widget>[
-                TextButton(
-                  child: const Text('Return'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    colorPicker(context);
-                  },
-                ),
-                ElevatedButton(
-                    child: const Text('Confirm'),
-                    onPressed: () async {
-                      setState(() => bookTitle = inputController.text);
-                      Navigator.of(context).pop();
-                      await bookAdd();
-                    })
-              ]);
-        });
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Return'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                colorPicker(context);
+              },
+            ),
+            ElevatedButton(
+              child: const Text('Confirm'),
+              onPressed: () async {
+                setState(() => bookTitle = inputController.text);
+                Navigator.of(context).pop();
+                await bookAdd();
+              },
+            )
+          ],
+        );
+      },
+    );
   }
 
   @override

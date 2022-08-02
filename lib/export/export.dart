@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class Export extends StatefulWidget {
-  final List<int> bookId;
+  final List bookId;
   const Export({Key? key, required this.bookId}) : super(key: key);
 
   @override

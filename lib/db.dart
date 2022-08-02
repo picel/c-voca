@@ -188,7 +188,7 @@ class BookManager {
     return bookIds;
   }
 
-  Future<String> getBooksJson(List<int> bookIds) async {
+  Future<String> getBooksJson(List bookIds) async {
     var books = [];
     for (int i = 0; i < bookIds.length; i++) {
       var book = await getBook(bookIds[i]);
@@ -196,7 +196,6 @@ class BookManager {
       books.add({
         'bookname': book.bookname,
         'bookcolor': book.bookcolor,
-        'count': cards.length,
         'cards': cards
       });
     }

@@ -21,6 +21,7 @@ class _ScanResultState extends State<ScanResult> {
   List<List> cards = [];
   bool isValid = true;
   bool isLoading = true;
+  bool isCode = false;
 
   @override
   void initState() {
@@ -37,13 +38,22 @@ class _ScanResultState extends State<ScanResult> {
       });
     }
     http.Response response = await http.get(Uri.parse(widget.scanResult));
+    // if response is not 200 OK, throw an exception
+    if (response.statusCode != 200) {
+      setState(() {
+        isValid = false;
+        isLoading = false;
+        isCode = true;
+        return;
+      });
+    }
     String jsonData = utf8.decode(response.bodyBytes);
     var dataset = json.decode(jsonData);
     setState(() {
       for (var i = 0; i < dataset.length; i++) {
         bookTitles.add(dataset[i]['bookname']);
         bookColors.add(dataset[i]['bookcolor']);
-        for (var j = 0; j < dataset[i]['count']; j++) {
+        for (var j = 0; j < dataset[i]['cards'].length; j++) {
           cards.add([
             i,
             dataset[i]['cards'][j]['word'],
@@ -136,29 +146,48 @@ class _ScanResultState extends State<ScanResult> {
                           ],
                         ),
                       )
-                    : Container(
-                        child: Center(
-                          child: Column(
-                            children: [
-                              Text("Invalid QR Code",
-                                  style: newTextStyle.subTitleText),
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.1,
-                              ),
-                              Column(
+                    : isCode
+                        ? Container(
+                            child: Center(
+                              child: Column(
                                 children: [
+                                  Text("File not exists",
+                                      style: newTextStyle.subTitleText),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.1,
+                                  ),
                                   Text(
-                                    "but we read this one",
+                                    "maybe code is not correct or link had expired",
                                     style: newTextStyle.subTitleText,
                                   ),
-                                  Text(widget.scanResult),
                                 ],
-                              )
-                            ],
+                              ),
+                            ),
+                          )
+                        : Container(
+                            child: Center(
+                              child: Column(
+                                children: [
+                                  Text("Invalid QR Code",
+                                      style: newTextStyle.subTitleText),
+                                  SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.1,
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "but we read this one",
+                                        style: newTextStyle.subTitleText,
+                                      ),
+                                      Text(widget.scanResult),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
           ],
         ),
       ),
