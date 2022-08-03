@@ -30,8 +30,6 @@ class _ExportState extends State<Export> {
 
     var data = await BookManager.instance.getBooksJson(widget.bookId);
 
-    print(data);
-
     //send data as text
     var response = await http.post(
       url,

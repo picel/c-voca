@@ -1,3 +1,4 @@
+import 'package:CVoca/export/exportSel.dart';
 import 'package:CVoca/import/scanResult.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -53,6 +54,7 @@ class _ShareState extends State<Share> {
             ElevatedButton(
               child: const Text('Confirm'),
               onPressed: () {
+                Navigator.of(context).pop();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -173,7 +175,14 @@ class _ShareState extends State<Share> {
             ),
           ),
           MaterialButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ExportSel(),
+                ),
+              );
+            },
             color: Colors.pinkAccent,
             height: MediaQuery.of(context).size.height * 0.35,
             child: Row(
