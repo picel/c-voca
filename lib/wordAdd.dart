@@ -1,7 +1,7 @@
 //get word, mean, pronun, explain from user input and add to database
 import 'package:flutter/material.dart';
 import 'package:CVoca/db.dart';
-import 'package:CVoca/model.dart';
+import 'package:CVoca/Model/WordcardDBModel.dart';
 import 'package:CVoca/style.dart';
 
 class WordAdd extends StatefulWidget {

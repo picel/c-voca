@@ -82,7 +82,9 @@ class _ExportState extends State<Export> {
                           style: newTextStyle.titleText,
                         ),
                         Image.network(
-                            'https://go.picel.net/qr/' + code + '.png'),
+                            'https://chart.googleapis.com/chart?cht=qr&chs=256x256&chl=https://go.picel.net/file/' +
+                                code +
+                                '.json'),
                         SizedBox(
                           height: 20,
                         ),

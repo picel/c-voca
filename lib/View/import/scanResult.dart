@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:CVoca/db.dart';
-import 'package:CVoca/model.dart';
+import 'package:CVoca/Model/BookDBModel.dart';
+import 'package:CVoca/Model/WordcardDBModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -49,35 +50,12 @@ class _ScanResultState extends State<ScanResult> {
         bookcolor: bookColors[index],
       ),
     );
-    print(id);
-    print(bookTitles[index]);
-    print(bookColors[index]);
     for (int i = 0; i < cards.length; i++) {
       if (cards[i][0] == index) {
         var newId = await CardManager.instance.getHighestId() + 1;
         await CardManager.instance.add(
           WordCard(
             bookid: id,
-            id: newId,
-            word: cards[i][1],
-            mean: cards[i][2],
-            pronun: cards[i][3],
-            explain: cards[i][4],
-          ),
-        );
-        print("$id $newId");
-      }
-    }
-  }
-
-  Future saveCards(int index, bookId) async {
-    for (int i = 0; i < cards.length; i++) {
-      if (cards[i][0] == index) {
-        print(cards[i]);
-        var newId = await CardManager.instance.getHighestId() + 1;
-        await CardManager.instance.add(
-          WordCard(
-            bookid: bookId,
             id: newId,
             word: cards[i][1],
             mean: cards[i][2],
@@ -125,7 +103,6 @@ class _ScanResultState extends State<ScanResult> {
         cardCount.add(dataset[i]['cards'].length);
       }
       isChecked = List.generate(bookTitles.length, (index) => false);
-      print(cards);
       isLoading = false;
     });
   }

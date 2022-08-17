@@ -1,8 +1,10 @@
+import 'package:CVoca/Controller/ColorController.dart';
 import 'package:flutter/material.dart';
 import 'package:CVoca/bookInfo.dart';
 import 'package:CVoca/style.dart';
 import 'package:CVoca/db.dart';
-import 'package:CVoca/model.dart';
+import 'package:CVoca/Model/BookDBModel.dart';
+import 'package:CVoca/Model/WordcardDBModel.dart';
 import 'package:CVoca/wordAdd.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:CVoca/wordModify.dart';
@@ -10,7 +12,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class WordList extends StatefulWidget {
   final int bookId;
-  WordList({Key? key, required this.bookId}) : super(key: key);
+  const WordList({Key? key, required this.bookId}) : super(key: key);
 
   @override
   State<WordList> createState() => _WordListState();
@@ -39,35 +41,6 @@ class _WordListState extends State<WordList> {
     getBookInfo(widget.bookId);
   }
 
-  Color textColorDecision(Color color) {
-    if (color.computeLuminance() > 0.5) {
-      return Colors.black;
-    } else {
-      return Colors.white;
-    }
-  }
-
-  Color oppsiteColor(Color color) {
-    var r = 255 - color.red;
-    var g = 255 - color.green;
-    var b = 255 - color.blue;
-    if (r == 255 && g == 255 && b == 255) {
-      return Colors.amber;
-    } else {
-      return Color.fromARGB(255, r, g, b);
-    }
-  }
-
-  Future updateBook(int bookId, String bookName, Color bookColor) async {
-    await BookManager.instance.update(
-      Book(
-        id: bookId,
-        bookname: bookName,
-        bookcolor: '0x${this.bookColor.value.toRadixString(16)}',
-      ),
-    );
-  }
-
   Future getWordList() async {
     List<WordCard> tmpCards =
         await CardManager.instance.getCards(widget.bookId);
@@ -84,8 +57,8 @@ class _WordListState extends State<WordList> {
         book = tmpBook;
         bookName = book.bookname;
         bookColor = Color(int.parse(book.bookcolor));
-        textColor = textColorDecision(bookColor);
-        buttonColor = oppsiteColor(bookColor);
+        textColor = ColorController.textColorDecision(bookColor);
+        buttonColor = ColorController.oppsiteColor(bookColor);
       });
     }
     getWordList();
@@ -94,7 +67,6 @@ class _WordListState extends State<WordList> {
   Future deleteWord(int id) async {
     await CardManager.instance.delete(id);
     getWordList();
-    BookManager.instance.getHighestId();
   }
 
   @override
@@ -102,6 +74,7 @@ class _WordListState extends State<WordList> {
     return Scaffold(
       backgroundColor: bookColor,
       floatingActionButton: FloatingActionButton(
+          foregroundColor: ColorController.textColorDecision(textColor),
           backgroundColor: buttonColor,
           shape: CircleBorder(),
           child: Icon(Icons.add_rounded),
@@ -247,6 +220,9 @@ class _WordListState extends State<WordList> {
                   );
                 },
               ),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.1,
             )
           ],
         ),

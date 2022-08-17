@@ -3,7 +3,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:CVoca/db.dart';
-import 'package:CVoca/model.dart';
+import 'package:CVoca/Model/BookDBModel.dart';
 import 'package:CVoca/style.dart';
 
 class BookInfo extends StatefulWidget {

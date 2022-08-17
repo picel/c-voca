@@ -1,6 +1,7 @@
 import 'package:CVoca/db.dart';
 import 'package:CVoca/export/export.dart';
-import 'package:CVoca/model.dart';
+import 'package:CVoca/Model/BookDBModel.dart';
+import 'package:CVoca/Model/WordcardDBModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';

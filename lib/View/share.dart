@@ -1,12 +1,12 @@
-import 'package:CVoca/export/exportSel.dart';
-import 'package:CVoca/import/scanResult.dart';
+import 'package:CVoca/View/export/exportSel.dart';
+import 'package:CVoca/View/import/scanResult.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 import 'package:CVoca/db.dart';
 import 'package:CVoca/export/export.dart';
-import 'package:CVoca/import/qrScan.dart';
-import 'package:CVoca/model.dart';
+import 'package:CVoca/View/import/qrScan.dart';
+import 'package:CVoca/model/BookDBModel.dart';
 import 'package:flutter/material.dart';
 import 'package:CVoca/style.dart';
 
@@ -21,7 +21,6 @@ class _ShareState extends State<Share> {
   TextEditingController inputController = TextEditingController();
 
   Future getBookList() async {
-    List<Book> tmpbooks = await BookManager.instance.getBooks();
     List idList = await BookManager.instance.getBookIds();
     return idList;
   }
@@ -73,7 +72,7 @@ class _ShareState extends State<Share> {
     );
   }
 
-  void importOption(context) {
+  importOption(context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -121,7 +120,7 @@ class _ShareState extends State<Share> {
     );
   }
 
-  void backUp(context) {
+  backUp(context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -158,104 +157,102 @@ class _ShareState extends State<Share> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(
-            margin: EdgeInsets.all(15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Share",
-                  style: newTextStyle.titleText,
-                ),
-              ],
-            ),
-          ),
-          MaterialButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const ExportSel(),
-                ),
-              );
-            },
-            color: Colors.pinkAccent,
-            height: MediaQuery.of(context).size.height * 0.35,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.ios_share_rounded,
-                      size: 50,
-                    ),
-                    Text(
-                      "Export",
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          MaterialButton(
-            onPressed: () async {
-              new Future.delayed(Duration.zero, () {
-                importOption(context);
-              });
-            },
-            color: Colors.greenAccent,
-            height: MediaQuery.of(context).size.height * 0.35,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.download_rounded,
-                      size: 50,
-                    ),
-                    Text(
-                      "Import",
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          margin: EdgeInsets.all(15),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              MaterialButton(
-                onPressed: () async {
-                  new Future.delayed(Duration.zero, () {
-                    backUp(context);
-                  });
-                },
-                height: MediaQuery.of(context).size.height * 0.1,
-                child: Text("Back Up"),
-              ),
-              MaterialButton(
-                onPressed: () {},
-                height: MediaQuery.of(context).size.height * 0.1,
-                child: Text("Restore"),
+              Text(
+                "Share",
+                style: newTextStyle.titleText,
               ),
             ],
-          )
-        ],
-      ),
+          ),
+        ),
+        MaterialButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ExportSel(),
+              ),
+            );
+          },
+          color: Colors.pinkAccent,
+          height: MediaQuery.of(context).size.height * 0.35,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.ios_share_rounded,
+                    size: 50,
+                  ),
+                  Text(
+                    "Export",
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+        MaterialButton(
+          onPressed: () async {
+            new Future.delayed(Duration.zero, () {
+              importOption(context);
+            });
+          },
+          color: Colors.greenAccent,
+          height: MediaQuery.of(context).size.height * 0.35,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.download_rounded,
+                    size: 50,
+                  ),
+                  Text(
+                    "Import",
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            MaterialButton(
+              onPressed: () async {
+                new Future.delayed(Duration.zero, () {
+                  backUp(context);
+                });
+              },
+              height: MediaQuery.of(context).size.height * 0.1,
+              child: Text("Back Up"),
+            ),
+            MaterialButton(
+              onPressed: () {},
+              height: MediaQuery.of(context).size.height * 0.1,
+              child: Text("Restore"),
+            ),
+          ],
+        )
+      ],
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:CVoca/db.dart';
-import 'package:CVoca/model.dart';
+import 'package:CVoca/Model/WordcardDBModel.dart';
 import 'package:CVoca/style.dart';
 
 class WordModify extends StatefulWidget {

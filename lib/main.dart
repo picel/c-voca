@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:CVoca/bookList.dart';
-import 'package:CVoca/share.dart';
+import 'package:CVoca/View/bookList.dart';
+import 'package:CVoca/View/share.dart';
 import 'package:CVoca/style.dart';
 import 'package:CVoca/wordList.dart';
 
