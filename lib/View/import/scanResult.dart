@@ -82,8 +82,8 @@ class _ScanResultState extends State<ScanResult> {
         isValid = false;
         isLoading = false;
         isCode = true;
-        return;
       });
+      return;
     }
     String jsonData = utf8.decode(response.bodyBytes);
     var dataset = json.decode(jsonData);
